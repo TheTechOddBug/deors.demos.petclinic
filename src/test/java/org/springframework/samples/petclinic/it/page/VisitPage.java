@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.samples.petclinic.it.SeleniumITBase;
 
 import com.google.common.base.Predicate;
 
@@ -115,7 +116,7 @@ public class VisitPage {
         driver.findElement(descriptionField).sendKeys(description);
         driver.findElement(addVisitCommand).click();
 
-        (new WebDriverWait(driver, 5)).until((Predicate<WebDriver>) d -> d.getCurrentUrl().startsWith(
+        (new WebDriverWait(driver, SeleniumITBase.BASE_TIMEOUT_WAIT)).until((Predicate<WebDriver>) d -> d.getCurrentUrl().startsWith(
             baseUrl + "/owners/9")
             && !d.getCurrentUrl().contains("pets/new"));
 

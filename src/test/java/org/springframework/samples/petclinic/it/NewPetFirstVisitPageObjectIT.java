@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.springframework.samples.petclinic.it.page.HomePage;
 import org.springframework.samples.petclinic.it.page.OwnerPage;
 import org.springframework.samples.petclinic.it.page.PetPage;
 import org.springframework.samples.petclinic.it.page.VisitPage;
+import org.springframework.samples.petclinic.it.page.VisitPageFactory;
 
 public class NewPetFirstVisitPageObjectIT
     extends SeleniumITBase {
@@ -32,9 +34,11 @@ public class NewPetFirstVisitPageObjectIT
 
         Assume.assumeTrue(RUN_HTMLUNIT);
 
-        logger.info("executing test in htmlunit");
+        logger.info("\n");
+        logger.info("executing test in ::::::htmlunit::::::");
 
         WebDriver driver = new HtmlUnitDriver();
+        Actions actions = new Actions(driver);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
@@ -45,15 +49,40 @@ public class NewPetFirstVisitPageObjectIT
         }
     }
 
+
+    @Test
+    public void testEDGE() throws MalformedURLException, IOException {
+
+        Assume.assumeTrue(RUN_EDGE);
+
+        logger.info("\n");
+        logger.info("executing test in ::::::microsoft edge::::::");
+
+        Capabilities browser = DesiredCapabilities.edge();
+        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        Actions actions = new Actions(driver);
+
+        try {
+            testNewPetFirstVisit(driver, TARGET_SERVER_URL);
+        } finally {
+            if (driver != null) {
+                driver.quit();
+            }
+        }
+    }
+
+
     @Test
     public void testIE() throws MalformedURLException, IOException {
 
         Assume.assumeTrue(RUN_IE);
 
-        logger.info("executing test in internet explorer");
+        logger.info("\n");
+        logger.info("executing test in ::::::internet explorer::::::");
 
         Capabilities browser = DesiredCapabilities.internetExplorer();
         WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        Actions actions = new Actions(driver);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
@@ -69,10 +98,12 @@ public class NewPetFirstVisitPageObjectIT
 
         Assume.assumeTrue(RUN_FIREFOX);
 
-        logger.info("executing test in firefox");
+        logger.info("\n");
+        logger.info("executing test in ::::::firefox::::::");
 
         Capabilities browser = DesiredCapabilities.firefox();
         WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        Actions actions = new Actions(driver);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
@@ -88,10 +119,12 @@ public class NewPetFirstVisitPageObjectIT
 
         Assume.assumeTrue(RUN_CHROME);
 
-        logger.info("executing test in chrome");
+        logger.info("\n");
+        logger.info("executing test in ::::::chrome::::::");
 
         Capabilities browser = DesiredCapabilities.chrome();
         WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        Actions actions = new Actions(driver);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
@@ -107,10 +140,12 @@ public class NewPetFirstVisitPageObjectIT
 
         Assume.assumeTrue(RUN_OPERA);
 
-        logger.info("executing test in opera");
+        logger.info("\n");
+        logger.info("executing test in ::::::opera::::::");
 
         Capabilities browser = DesiredCapabilities.operaBlink();
         WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        Actions actions = new Actions(driver);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
@@ -140,6 +175,7 @@ public class NewPetFirstVisitPageObjectIT
         assertTrue(ownerPage.getMainText().contains("2011-10-02"));
 
         VisitPage visitPage = ownerPage.navigateToAddNewVisit();
+        //VisitPageFactory visitPage = ownerPage.navigateToAddNewVisitFromFactory();
 
         visitPage.createVisit("2012-03-15", "rabies shot");
         assertTrue(ownerPage.getName().contains("David Schroeder"));
