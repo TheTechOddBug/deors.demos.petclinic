@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -22,7 +23,6 @@ import org.springframework.samples.petclinic.it.page.HomePage;
 import org.springframework.samples.petclinic.it.page.OwnerPage;
 import org.springframework.samples.petclinic.it.page.PetPage;
 import org.springframework.samples.petclinic.it.page.VisitPage;
-import org.springframework.samples.petclinic.it.page.VisitPageFactory;
 
 public class NewPetFirstVisitPageObjectIT
     extends SeleniumITBase {
@@ -80,10 +80,13 @@ public class NewPetFirstVisitPageObjectIT
         logger.info("\n");
         logger.info("executing test in ::::::internet explorer::::::");
 
-        Capabilities browser = DesiredCapabilities.internetExplorer();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
-        Actions actions = new Actions(driver);
+        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+        capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
 
+
+        //Capabilities browser = DesiredCapabilities.internetExplorer();
+
+        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), capabilities);
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
         } finally {
