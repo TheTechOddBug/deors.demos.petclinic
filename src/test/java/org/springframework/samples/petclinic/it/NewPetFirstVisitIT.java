@@ -15,6 +15,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -150,8 +151,13 @@ public class NewPetFirstVisitIT {
 
         logger.info("executing test in internet explorer");
 
-        Capabilities browser = DesiredCapabilities.internetExplorer();
-        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), browser);
+        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+        capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
+
+
+        //Capabilities browser = DesiredCapabilities.internetExplorer();
+
+        WebDriver driver = new RemoteWebDriver(new URL(SELENIUM_HUB_URL), capabilities);
 
         try {
             testNewPetFirstVisit(driver, TARGET_SERVER_URL);
